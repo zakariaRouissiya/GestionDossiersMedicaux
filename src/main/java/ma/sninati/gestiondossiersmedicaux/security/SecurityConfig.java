@@ -30,15 +30,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
         return httpSecurity
-                .formLogin(form -> form
+                .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .defaultSuccessUrl("/")
-                        .permitAll())
-                .authorizeHttpRequests(ar-> ar.requestMatchers("/webjars/**").permitAll())
-                .authorizeHttpRequests(ar-> ar.requestMatchers("/delete/**","/editPatient/**").hasRole("ADMINISTRATEUR"))
-                .authorizeHttpRequests(ar-> ar.requestMatchers("/patients/**").hasAnyRole("ADMINISTRATEUR","SECRETAIRE","DENTISTE"))
-                .authorizeHttpRequests(ar-> ar.requestMatchers("/formPatients/**").hasAnyRole("ADMINISTRATEUR","SECRETAIRE"))
-                .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                        .defaultSuccessUrl("/patients", true)
+                        .permitAll()
+                )
+                .authorizeHttpRequests(ar -> ar
+                        .requestMatchers("/webjars/**","/vendor/**","/css/**","/img/**","/js/**","/scss/**").permitAll()
+                        .requestMatchers("/delete/**", "/editPatient/**").hasRole("ADMINISTRATEUR")
+                        .requestMatchers("/patients/**").hasAnyRole("ADMINISTRATEUR", "SECRETAIRE", "DENTISTE")
+                        .requestMatchers("/formPatients/**").hasAnyRole("ADMINISTRATEUR", "SECRETAIRE")
+                        .anyRequest().authenticated()
+                )
                 .exceptionHandling(ar->ar.accessDeniedPage("/accessDenied"))
                 .build();
     }
