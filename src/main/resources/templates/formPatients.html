@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire Des Patients</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+        <form method="post" th:action="@{save}" class="col-md-6 offset-3">
+            <div th:class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" class="form-control" id="nom" name="nom" th:value="${patient.nom}">
+                <span th:errors="${patient.nom}"></span>
+            </div>
+            <div th:class="form-group">
+                <label for="prenom">Prenom</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" th:value="${patient.prenom}">
+                <span th:errors="${patient.prenom}"></span>
+            </div>
+            <div th:class="form-group">
+                <label for="tel">Téléphone</label>
+                <input type="text" class="form-control" id="tel" name="tel" th:value="${patient.tel}">
+                <span th:errors="${patient.tel}"></span>
+            </div>
+            <div th:class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" th:value="${patient.email}">
+                <span th:errors="${patient.email}"></span>
+            </div>
+            <div th:class="form-group">
+                <label for="cin">CIN</label>
+                <input type="text" class="form-control" id="cin" name="cin" th:value="${patient.cin}">
+                <span th:errors="${patient.cin}"></span>
+            </div>
+            <div th:class="form-group">
+                <label for="dateNaissance">Date de Naissance</label>
+                <input type="date" class="form-control" id="dateNaissance" name="dateNaissance"
+                       th:value="${patient.dateNaissance}">
+                <span th:errors="${patient.dateNaissance}"></span>
+            </div>
+            <div th:class="form-group">
+                <label for="mutuelle">Mutuelle</label>
+                <select class="form-select" id="mutuelle" name="mutuelle">
+                    <option th:each="mutuelle : ${T(ma.sninati.gestiondossiersmedicaux.entities.Mutuelle).values()}"
+                            th:value="${mutuelle}" th:text="${mutuelle}"></option>
+                </select>
+                <span th:errors="${patient.mutuelle}"></span>
+            </div>
+            <div th:class="form-group">
+                <label for="groupeSanguin">Groupe Sanguin</label>
+                <select class="form-select" id="groupeSanguin" name="groupeSanguin">
+                    <option th:each="groupe : ${T(ma.sninati.gestiondossiersmedicaux.entities.GroupeSanguin).values()}"
+                            th:value="${groupe}" th:text="${groupe}"></option>
+                </select>
+                <span th:errors="${patient.groupeSanguin}"></span>
+            </div>
+<!--            <div th:class="form-group">
+                <label for="profession">Profession</label>
+                <input type="text" class="form-control" id="profession" name="profession"
+                       th:value="${patient.profession}">
+                <span th:errors="${patient.profession}"></span>
+            </div>-->
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+</div>
+</body>
+</html>

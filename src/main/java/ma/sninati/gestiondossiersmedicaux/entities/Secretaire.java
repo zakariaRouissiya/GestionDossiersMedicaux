@@ -18,6 +18,7 @@ public class Secretaire extends Utilisateur {
     private Assurance assurance;
     private StatusActuel statusActuel;
     private Double prime;
+
     public Secretaire(String nomUtilisateur, String motDePasse, Double salaireDeBase, LocalDate dateRetourConge, Assurance assurance, StatusActuel statusActuel, Double prime) {
         super(nomUtilisateur, motDePasse);
         this.salaireDeBase = salaireDeBase;
@@ -25,6 +26,7 @@ public class Secretaire extends Utilisateur {
         this.assurance = assurance;
         this.statusActuel = statusActuel;
         this.prime = prime;
+        this.setRole(Role.SECRETAIRE);
     }
 }
 

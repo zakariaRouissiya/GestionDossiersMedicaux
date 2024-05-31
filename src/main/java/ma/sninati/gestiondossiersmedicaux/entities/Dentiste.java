@@ -32,6 +32,7 @@ public class Dentiste extends Utilisateur {
     public Dentiste(String nomUtilisateur, String motDePasse) {
         super(nomUtilisateur, motDePasse);
     }
+
     public Dentiste(String nomUtilisateur, String motDePasse, String specialite, LocalDate dateRecrutement, Collection<DossierMedical> dossierTraites, Disponibilite disponibilite, Assurance assurance, StatusActuel statusActuel, Double salaireDeBase) {
         super(nomUtilisateur, motDePasse);
         this.specialite = specialite;
@@ -41,6 +42,7 @@ public class Dentiste extends Utilisateur {
         this.assurance = assurance;
         this.statusActuel = statusActuel;
         this.salaireDeBase = salaireDeBase;
+        this.setRole(Role.DENTISTE);
     }
 
 }

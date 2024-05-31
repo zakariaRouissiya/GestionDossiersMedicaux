@@ -11,9 +11,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DossierMedical {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @CreationTimestamp
     private LocalDate DateDeCreation;
@@ -23,7 +26,7 @@ public class DossierMedical {
     @ManyToOne
     @JoinColumn(name = "id_docteur")
     private Dentiste medecinTraitant;
-    @OneToMany(mappedBy = "dossierMedical",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "dossierMedical", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Consultation> consultations = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "id_situation_financiere")

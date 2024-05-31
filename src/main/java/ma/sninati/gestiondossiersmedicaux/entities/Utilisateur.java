@@ -17,6 +17,7 @@ public class Utilisateur extends Personne {
     private String motDePasse;
     @Enumerated(EnumType.STRING)
     private Role role;
+
     public Utilisateur(String nomUtilisateur, String motDePasse) {
         this.nomUtilisateur = nomUtilisateur;
         this.motDePasse = motDePasse;

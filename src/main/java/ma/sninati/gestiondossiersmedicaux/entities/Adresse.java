@@ -3,7 +3,9 @@ package ma.sninati.gestiondossiersmedicaux.entities;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class Adresse {
     private String rue;

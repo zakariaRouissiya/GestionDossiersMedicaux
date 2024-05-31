@@ -1,6 +1,8 @@
 package ma.sninati.gestiondossiersmedicaux.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ public class Personne {
     private String tel;
     private String email;
     private String cin;
+
     public Personne(String nom, String prenom, Adresse adresse, String tel, String email, String cin) {
         this.nom = nom;
         this.prenom = prenom;

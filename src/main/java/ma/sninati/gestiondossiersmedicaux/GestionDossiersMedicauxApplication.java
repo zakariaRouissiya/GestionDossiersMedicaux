@@ -18,8 +18,8 @@ public class GestionDossiersMedicauxApplication {
         SpringApplication.run(GestionDossiersMedicauxApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner commandLineRunner(PatientRepository patientRepository,UtilisateurRepository utilisateurRepository){
+    //@Bean
+    CommandLineRunner commandLineRunner(PatientRepository patientRepository, UtilisateurRepository utilisateurRepository) {
         return args -> {
             Adresse adresse1 = new Adresse("123 Main St", "Paris", "France", "75001");
             Patient patient1 = new Patient("Doe", "John", adresse1, "123456789", "john.doe@example.com", "AB123456", LocalDate.of(1985, 5, 15), Mutuelle.CNOPS, GroupeSanguin.O_NEGATIF, "Engineer");

@@ -2,6 +2,7 @@ package ma.sninati.gestiondossiersmedicaux.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 public class Patient extends Personne {
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateNaissance;
     @Enumerated(EnumType.STRING)
     private Mutuelle mutuelle;

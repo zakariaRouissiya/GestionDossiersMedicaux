@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Risque {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
     private String categorie;
