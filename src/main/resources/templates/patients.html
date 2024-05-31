@@ -9,12 +9,23 @@
 <body>
 <div layout:fragment="content1">
     <div class="container">
-        <h1 class="mt-4">Liste Des Patients</h1>
-        <form method="get" th:action="@{patients}">
-            <label>Key Word</label>
+
+        <!-- Topbar Search -->
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get" th:action="@{patients}">
+            <div class="input-group">
+                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                       aria-label="Search" aria-describedby="basic-addon2" name="keyword" th:value="${keyword}">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+<!--        <form method="get" th:action="@{patients}">
             <input type="text" name="keyword" th:value="${keyword}">
             <button type="submit" class="btn btn-dark">Chercher</button>
-        </form>
+        </form>-->
         <table class="table table-striped table-hover mt-4">
             <thead>
             <tr>
@@ -28,7 +39,7 @@
                 <th>Groupe Sanguin</th>
                 <!--<th>Profession</th>-->
                 <!--<th>Adresse</th>-->
-                <th>Action</th>
+                <th th:if="${#authorization.expression('hasRole(''ADMINISTRATEUR'')')}">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -50,7 +61,7 @@
                         <span th:text="${patient.adresse.pays}"></span>
                     </div>
                 </td>-->
-                <td>
+                <td th:if="${#authorization.expression('hasRole(''ADMINISTRATEUR'')')}">
                     <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger"
                        th:href="@{delete(id=${patient.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
                     <a  class="btn btn-success"

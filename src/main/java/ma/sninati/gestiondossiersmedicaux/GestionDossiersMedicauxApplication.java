@@ -2,11 +2,14 @@ package ma.sninati.gestiondossiersmedicaux;
 
 import ma.sninati.gestiondossiersmedicaux.entities.*;
 import ma.sninati.gestiondossiersmedicaux.repositories.PatientRepository;
+import ma.sninati.gestiondossiersmedicaux.services.AccountService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import ma.sninati.gestiondossiersmedicaux.repositories.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +21,12 @@ public class GestionDossiersMedicauxApplication {
         SpringApplication.run(GestionDossiersMedicauxApplication.class, args);
     }
 
-    //@Bean
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     CommandLineRunner commandLineRunner(PatientRepository patientRepository, UtilisateurRepository utilisateurRepository) {
         return args -> {
             Adresse adresse1 = new Adresse("123 Main St", "Paris", "France", "75001");

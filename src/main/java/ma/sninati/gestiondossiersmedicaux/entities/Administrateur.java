@@ -11,9 +11,8 @@ public class Administrateur extends Utilisateur {
     public Administrateur() {
     }
 
-    public Administrateur(String nomUtilisateur, String motDePasse) {
-        super(nomUtilisateur, motDePasse);
-        this.setRole(Role.ADMINISTRATEUR);
+    public Administrateur(String username, String password) {
+        super(username, password);
     }
 }
 

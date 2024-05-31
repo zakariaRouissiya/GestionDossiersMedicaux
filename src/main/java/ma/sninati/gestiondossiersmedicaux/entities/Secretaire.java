@@ -19,14 +19,13 @@ public class Secretaire extends Utilisateur {
     private StatusActuel statusActuel;
     private Double prime;
 
-    public Secretaire(String nomUtilisateur, String motDePasse, Double salaireDeBase, LocalDate dateRetourConge, Assurance assurance, StatusActuel statusActuel, Double prime) {
-        super(nomUtilisateur, motDePasse);
+    public Secretaire(String username, String password, Double salaireDeBase, LocalDate dateRetourConge, Assurance assurance, StatusActuel statusActuel, Double prime) {
+        super(username, password);
         this.salaireDeBase = salaireDeBase;
         this.dateRetourConge = dateRetourConge;
         this.assurance = assurance;
         this.statusActuel = statusActuel;
         this.prime = prime;
-        this.setRole(Role.SECRETAIRE);
     }
 }
 

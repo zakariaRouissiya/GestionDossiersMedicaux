@@ -20,6 +20,14 @@ public class PatientController {
     public String home() {
         return "redirect:/patients";
     }
+    @GetMapping("/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
     @GetMapping(path = "/patients")
     public String patients(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
