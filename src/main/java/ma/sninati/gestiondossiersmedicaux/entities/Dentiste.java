@@ -4,46 +4,39 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import ma.sninati.gestiondossiersmedicaux.entities.Enums.Assurance;
+import ma.sninati.gestiondossiersmedicaux.entities.Enums.Disponibilite;
+import ma.sninati.gestiondossiersmedicaux.entities.Enums.Specialite;
+import ma.sninati.gestiondossiersmedicaux.entities.Enums.StatusEmploye;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 @Entity
-@DiscriminatorValue("DEN")
-public class Dentiste extends Utilisateur {
-    private String specialite;
-    @CreationTimestamp
-    private LocalDate dateRecrutement;
-    @OneToMany(mappedBy = "medecinTraitant")
-    private Collection<DossierMedical> dossierTraites = new ArrayList<>();
-    @Enumerated(EnumType.STRING)
-    private Disponibilite disponibilite;
-    @Enumerated(EnumType.STRING)
-    private Assurance assurance;
-    @Enumerated(EnumType.STRING)
-    private StatusActuel statusActuel;
+@DiscriminatorValue("Dentiste")
+public class Dentiste extends  Utilisateur{
+
+
+    private LocalDate dateRetourConge;
+
     private Double salaireDeBase;
 
-    public Dentiste(String nomUtilisateur, String motDePasse) {
-        super(nomUtilisateur, motDePasse);
-    }
+    @Enumerated(EnumType.STRING)
+    private Specialite specialite;
 
-    public Dentiste(String username, String password, String specialite, LocalDate dateRecrutement, Collection<DossierMedical> dossierTraites, Disponibilite disponibilite, Assurance assurance, StatusActuel statusActuel, Double salaireDeBase) {
-        super(username, password);
-        this.specialite = specialite;
-        this.dateRecrutement = dateRecrutement;
-        this.dossierTraites = dossierTraites;
-        this.disponibilite = disponibilite;
-        this.assurance = assurance;
-        this.statusActuel = statusActuel;
-        this.salaireDeBase = salaireDeBase;
-    }
+    @Convert(converter = DisponibiliteConverter.class)
+    private Map<DayOfWeek, Disponibilite> disponibilite;
+
+    @Enumerated(EnumType.STRING)
+    private Assurance assurance;
+
+    @Enumerated(EnumType.STRING)
+    private StatusEmploye statusActuel;
+
+    @OneToMany( mappedBy = "medecinTraitant", fetch = FetchType.LAZY)
+    private List<DossierMedicale> dossierTraites;
 
 }
-
-

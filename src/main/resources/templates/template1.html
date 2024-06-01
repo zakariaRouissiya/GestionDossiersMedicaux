@@ -53,7 +53,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" th:href="@{patients}">Liste Des Patients</a>
-                    <a class="collapse-item" th:href="@{formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMINISTRATEUR'',''SECRETAIRE'')')}">Formulaire Patient</a>
+                    <a class="collapse-item" th:href="@{formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Formulaire Patient</a>
                 </div>
             </div>
         </li>

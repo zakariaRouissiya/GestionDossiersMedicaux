@@ -4,31 +4,35 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
+@Data @AllArgsConstructor @NoArgsConstructor
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class SituationFinanciere {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idSituationFinanciere;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name= "id_dossiermedicale")
+    private DossierMedicale dossierMedicale;
+
+    @CreationTimestamp
+    private LocalDate dateCreation;
+
+    private Double montantGlobaleRestant;
+
+    private Double montantGlobalePaye;
+
+    @OneToMany(mappedBy = "situationFinanciere", fetch = FetchType.LAZY)
+    private List<Facture> factures;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name = "id_caisse")
     private Caisse caisse;
 
-    @OneToOne(optional = true)
-    @JoinColumn(name = "id_dossier_medical")
-    private DossierMedical dossierMedical;
-
-    private LocalDate dateDeCreation;
-    private Double montantGlobalRestant;
-    private Double montantGlobalPaye;
-
-    @OneToMany(mappedBy = "situationFinanciere", cascade = CascadeType.ALL)
-    private List<Facture> factures = new ArrayList<>();
 }

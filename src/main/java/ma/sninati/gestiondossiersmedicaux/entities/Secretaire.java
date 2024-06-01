@@ -1,31 +1,33 @@
 package ma.sninati.gestiondossiersmedicaux.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.sninati.gestiondossiersmedicaux.entities.Enums.Assurance;
+import ma.sninati.gestiondossiersmedicaux.entities.Enums.StatusEmploye;
 
 import java.time.LocalDate;
 
+@Data @AllArgsConstructor @NoArgsConstructor
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@DiscriminatorValue("SEC")
-public class Secretaire extends Utilisateur {
+@DiscriminatorValue("Secretaire")
+public class Secretaire extends Utilisateur{
+
     private Double salaireDeBase;
+
+
     private LocalDate dateRetourConge;
+
+    @Enumerated(EnumType.STRING)
     private Assurance assurance;
-    private StatusActuel statusActuel;
+
+    @Enumerated(EnumType.STRING)
+    private StatusEmploye statusActuel;
+
     private Double prime;
 
-    public Secretaire(String username, String password, Double salaireDeBase, LocalDate dateRetourConge, Assurance assurance, StatusActuel statusActuel, Double prime) {
-        super(username, password);
-        this.salaireDeBase = salaireDeBase;
-        this.dateRetourConge = dateRetourConge;
-        this.assurance = assurance;
-        this.statusActuel = statusActuel;
-        this.prime = prime;
-    }
 }
-

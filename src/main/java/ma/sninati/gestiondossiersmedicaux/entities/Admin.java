@@ -1,22 +1,19 @@
 package ma.sninati.gestiondossiersmedicaux.entities;
 
+
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Role {
-    @Id
-    private String role;
+@AllArgsConstructor
+@Entity
+@DiscriminatorValue("Admin")
+public class Admin extends Utilisateur{
 
-
+    String adminKey;
 
 }
-

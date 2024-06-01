@@ -1,8 +1,9 @@
 package ma.sninati.gestiondossiersmedicaux.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,23 +13,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @MappedSuperclass
 public class Personne {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nom;
     private String prenom;
-    @Embedded
-    private Adresse adresse;
-    private String tel;
+    private String adresse;
+    private String telephone;
     private String email;
     private String cin;
 
-    public Personne(String nom, String prenom, Adresse adresse, String tel, String email, String cin) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.adresse = adresse;
-        this.tel = tel;
-        this.email = email;
-        this.cin = cin;
-    }
+
+
+
 }

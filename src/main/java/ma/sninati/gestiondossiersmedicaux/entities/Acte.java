@@ -2,23 +2,28 @@ package ma.sninati.gestiondossiersmedicaux.entities;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ma.sninati.gestiondossiersmedicaux.entities.Enums.CategorieActe;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
+@Data @AllArgsConstructor @NoArgsConstructor
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Acte {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String libelle;
+    private Long idActe;
+
+    @OneToMany(mappedBy = "acte", fetch = FetchType.LAZY)
+    private List<InterventionMedecin> interventions;
+
     private Double prixDeBase;
+
     @Enumerated(EnumType.STRING)
     private CategorieActe categorie;
-    @OneToMany(mappedBy = "acte")
-    private Collection<InterventionDocteur> interventionDocteurs = new ArrayList<>();
+    private String libelle;
+
 }

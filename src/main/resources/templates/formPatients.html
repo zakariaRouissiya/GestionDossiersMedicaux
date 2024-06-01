@@ -21,8 +21,8 @@
             </div>
             <div th:class="form-group">
                 <label for="tel">Téléphone</label>
-                <input type="text" class="form-control" id="tel" name="tel" th:value="${patient.tel}">
-                <span th:errors="${patient.tel}"></span>
+                <input type="text" class="form-control" id="tel" name="telephone" th:value="${patient.telephone}">
+                <span th:errors="${patient.telephone}"></span>
             </div>
             <div th:class="form-group">
                 <label for="email">Email</label>
@@ -43,7 +43,7 @@
             <div th:class="form-group">
                 <label for="mutuelle">Mutuelle</label>
                 <select class="form-select" id="mutuelle" name="mutuelle">
-                    <option th:each="mutuelle : ${T(ma.sninati.gestiondossiersmedicaux.entities.Mutuelle).values()}"
+                    <option th:each="mutuelle : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.Mutuelle).values()}"
                             th:value="${mutuelle}" th:text="${mutuelle}"></option>
                 </select>
                 <span th:errors="${patient.mutuelle}"></span>
@@ -51,7 +51,7 @@
             <div th:class="form-group">
                 <label for="groupeSanguin">Groupe Sanguin</label>
                 <select class="form-select" id="groupeSanguin" name="groupeSanguin">
-                    <option th:each="groupe : ${T(ma.sninati.gestiondossiersmedicaux.entities.GroupeSanguin).values()}"
+                    <option th:each="groupe : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.GroupeSanguin).values()}"
                             th:value="${groupe}" th:text="${groupe}"></option>
                 </select>
                 <span th:errors="${patient.groupeSanguin}"></span>

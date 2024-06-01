@@ -48,14 +48,14 @@
                                 <th>Groupe Sanguin</th>
                                 <!--<th>Profession</th>-->
                                 <!--<th>Adresse</th>-->
-                                <th th:if="${#authorization.expression('hasRole(''ADMINISTRATEUR'')')}">Actions</th>
+                                <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="patient : ${listePatients}">
                                 <td th:text="${patient.id}"></td>
                                 <td th:text="${patient.nom + ' ' + patient.prenom}"></td>
-                                <td th:text="${patient.tel}"></td>
+                                <td th:text="${patient.telephone}"></td>
                                 <td th:text="${patient.email}"></td>
                                 <td th:text="${patient.cin}"></td>
                                 <td th:text="${patient.dateNaissance}"></td>
@@ -70,7 +70,7 @@
                                         <span th:text="${patient.adresse.pays}"></span>
                                     </div>
                                 </td>-->
-                                <td th:if="${#authorization.expression('hasRole(''ADMINISTRATEUR'')')}">
+                                <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                                     <div class="d-flex flex-column">
                                         <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger mb-2"
                                            th:href="@{delete(id=${patient.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>

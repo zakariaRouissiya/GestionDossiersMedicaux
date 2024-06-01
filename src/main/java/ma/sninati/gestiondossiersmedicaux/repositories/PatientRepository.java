@@ -10,4 +10,3 @@ import org.springframework.stereotype.Repository;
 public interface PatientRepository extends JpaRepository<Patient, Long> {
     Page<Patient> findByNomContains(String kw, Pageable pageable);
 }
-
