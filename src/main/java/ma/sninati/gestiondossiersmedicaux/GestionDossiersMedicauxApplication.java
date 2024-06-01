@@ -26,7 +26,7 @@ public class GestionDossiersMedicauxApplication {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner commandLineRunner(PatientRepository patientRepository, UtilisateurRepository utilisateurRepository) {
         return args -> {
             Adresse adresse1 = new Adresse("123 Main St", "Paris", "France", "75001");

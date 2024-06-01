@@ -36,13 +36,15 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .authorizeHttpRequests(ar -> ar
-                        .requestMatchers("/webjars/**","/vendor/**","/css/**","/img/**","/js/**","/scss/**").permitAll()
-                        .requestMatchers("/delete/**", "/editPatient/**").hasRole("ADMINISTRATEUR")
+                        .requestMatchers("/webjars/**", "/vendor/**", "/css/**", "/img/**", "/js/**", "/scss/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMINISTRATEUR")
                         .requestMatchers("/patients/**").hasAnyRole("ADMINISTRATEUR", "SECRETAIRE", "DENTISTE")
                         .requestMatchers("/formPatients/**").hasAnyRole("ADMINISTRATEUR", "SECRETAIRE")
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(ar->ar.accessDeniedPage("/accessDenied"))
+                .exceptionHandling(ar -> ar.accessDeniedPage("/accessDenied"))
                 .build();
     }
+
+
 }

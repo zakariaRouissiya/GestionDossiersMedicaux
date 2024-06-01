@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Utilisateurs</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Liste des Utilisateurs</h6>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-primary mb-3" th:href="@{/admin/form}">Ajouter Utilisateur</a>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Nom d'utilisateur</th>
+                                <th>Rôles</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user : ${users}">
+                                <td th:text="${user.username}"></td>
+                                <td th:text="${user.roles}"></td>
+                                <td>
+                                    <a class="btn btn-success mb-2" th:href="@{/admin/edit(username=${user.username})}">Modifier</a>
+                                    <a class="btn btn-danger" th:href="@{/admin/delete(username=${user.username})}" onclick="return confirm('Etes-vous sûr?')">Supprimer</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

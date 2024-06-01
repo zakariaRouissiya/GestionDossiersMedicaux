@@ -5,78 +5,93 @@
     <meta charset="UTF-8">
     <title>Liste Des Patients</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link href="/vendor/fontawesome-free/css/all.css" rel="stylesheet" type="text/css">
+    <link href="/vendor/fontawesome-free/css/fontawesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/sb-admin-2.min.css">
 </head>
 <body>
 <div layout:fragment="content1">
     <div class="container">
-
-        <!-- Topbar Search -->
-        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get" th:action="@{patients}">
-            <div class="input-group">
-                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                       aria-label="Search" aria-describedby="basic-addon2" name="keyword" th:value="${keyword}">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fas fa-search fa-sm"></i>
-                    </button>
+        <div class="container-fluid">
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Liste Des Patients</h6>
+                </div>
+                <div class="card-body">
+                    <!-- Topbar Search -->
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-1 my-2 my-md-0 mw-100 navbar-search mb-3"
+                          method="get" th:action="@{patients}">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                   aria-label="Search" aria-describedby="basic-addon2" name="keyword" th:value="${keyword}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nom Complet</th>
+                                <th>Téléphone</th>
+                                <th>Email</th>
+                                <th>CIN</th>
+                                <th>Date de Naissance</th>
+                                <th>Mutuelle</th>
+                                <th>Groupe Sanguin</th>
+                                <!--<th>Profession</th>-->
+                                <!--<th>Adresse</th>-->
+                                <th th:if="${#authorization.expression('hasRole(''ADMINISTRATEUR'')')}">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="patient : ${listePatients}">
+                                <td th:text="${patient.id}"></td>
+                                <td th:text="${patient.nom + ' ' + patient.prenom}"></td>
+                                <td th:text="${patient.tel}"></td>
+                                <td th:text="${patient.email}"></td>
+                                <td th:text="${patient.cin}"></td>
+                                <td th:text="${patient.dateNaissance}"></td>
+                                <td th:text="${patient.mutuelle}"></td>
+                                <td th:text="${patient.groupeSanguin}"></td>
+                                <!--<td th:text="${patient.profession}"></td>-->
+                                <!--<td>
+                                    <div>
+                                        <span th:text="${patient.adresse.rue}"></span><br>
+                                        <span th:text="${patient.adresse.ville}"></span>,
+                                        <span th:text="${patient.adresse.codePostal}"></span><br>
+                                        <span th:text="${patient.adresse.pays}"></span>
+                                    </div>
+                                </td>-->
+                                <td th:if="${#authorization.expression('hasRole(''ADMINISTRATEUR'')')}">
+                                    <div class="d-flex flex-column">
+                                        <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger mb-2"
+                                           th:href="@{delete(id=${patient.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
+                                        <a class="btn btn-success"
+                                           th:href="@{editPatient(id=${patient.id},keyword=${keyword},page=${currentPage})}">Modifier</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <ul class="nav nav-pills">
+                            <li th:each="page,status:${pages}">
+                                <a th:class="${status.index==currentPage?'btn btn-dark ms-1':'btn btn-outline-dark ms-1'}"
+                                   th:text="${status.index}"
+                                   th:href="@{patients(page=${status.index},keyword=${keyword})}"></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </form>
-<!--        <form method="get" th:action="@{patients}">
-            <input type="text" name="keyword" th:value="${keyword}">
-            <button type="submit" class="btn btn-dark">Chercher</button>
-        </form>-->
-        <table class="table table-striped table-hover mt-4">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom Complet</th>
-                <th>Téléphone</th>
-                <th>Email</th>
-                <th>CIN</th>
-                <th>Date de Naissance</th>
-                <th>Mutuelle</th>
-                <th>Groupe Sanguin</th>
-                <!--<th>Profession</th>-->
-                <!--<th>Adresse</th>-->
-                <th th:if="${#authorization.expression('hasRole(''ADMINISTRATEUR'')')}">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="patient : ${listePatients}">
-                <td th:text="${patient.id}"></td>
-                <td th:text="${patient.nom + ' ' + patient.prenom}"></td>
-                <td th:text="${patient.tel}"></td>
-                <td th:text="${patient.email}"></td>
-                <td th:text="${patient.cin}"></td>
-                <td th:text="${patient.dateNaissance}"></td>
-                <td th:text="${patient.mutuelle}"></td>
-                <td th:text="${patient.groupeSanguin}"></td>
-                <!--<td th:text="${patient.profession}"></td>-->
-                <!--<td>
-                    <div>
-                        <span th:text="${patient.adresse.rue}"></span><br>
-                        <span th:text="${patient.adresse.ville}"></span>,
-                        <span th:text="${patient.adresse.codePostal}"></span><br>
-                        <span th:text="${patient.adresse.pays}"></span>
-                    </div>
-                </td>-->
-                <td th:if="${#authorization.expression('hasRole(''ADMINISTRATEUR'')')}">
-                    <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger"
-                       th:href="@{delete(id=${patient.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
-                    <a  class="btn btn-success"
-                       th:href="@{editPatient(id=${patient.id},keyword=${keyword},page=${currentPage})}">Modifier</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <ul class="nav nav-pills">
-            <li th:each="page,status:${pages}">
-                <a th:class="${status.index==currentPage?'btn btn-dark ms-1':'btn btn-outline-dark ms-1'}"
-                   th:text="${status.index}"
-                   th:href="@{patients(page=${status.index},keyword=${keyword})}"></a>
-            </li>
-        </ul>
+        </div>
     </div>
 </div>
 </body>
