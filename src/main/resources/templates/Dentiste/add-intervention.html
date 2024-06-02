@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter Intervention</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Ajouter Intervention</h1>
+        <form th:action="@{/dentiste/dossierMedicale/interventions}" th:object="${intervention}" method="post">
+            <div class="form-group">
+                <label for="noteMedecin">Note du Médecin</label>
+                <input type="text" id="noteMedecin" name="noteMedecin" class="form-control" th:field="*{noteMedecin}"/>
+            </div>
+            <div class="form-group">
+                <label for="prixPatient">Prix Patient</label>
+                <input type="number" step="0.01" id="prixPatient" name="prixPatient" class="form-control" th:field="*{prixPatient}"/>
+            </div>
+            <div class="form-group">
+                <label for="dent">Dent</label>
+                <input type="number" id="dent" name="dent" class="form-control" th:field="*{dent}"/>
+            </div>
+            <div class="form-group">
+                <label for="acte">Acte</label>
+                <select id="acte" name="acte.idActe" class="form-control" th:field="*{acte.idActe}">
+                    <option th:each="acte : ${actes}" th:value="${acte.idActe}" th:text="${acte.libelle}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="consultation">Consultation</label>
+                <select id="consultation" name="consultation.idConsultation" class="form-control" th:field="*{consultation.idConsultation}">
+                    <option th:each="consultation : ${consultations}" th:value="${consultation.idConsultation}" th:text="${consultation.dateConsultation}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

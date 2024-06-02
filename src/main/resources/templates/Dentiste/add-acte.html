@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter Acte</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Ajouter Acte</h1>
+        <form th:action="@{/dentiste/actes}" th:object="${acte}" method="post">
+            <div class="form-group">
+                <label for="libelle">Libelle</label>
+                <input type="text" id="libelle" name="libelle" class="form-control" th:field="*{libelle}"/>
+            </div>
+            <div class="form-group">
+                <label for="prixDeBase">Prix de Base</label>
+                <input type="number" step="0.01" id="prixDeBase" name="prixDeBase" class="form-control" th:field="*{prixDeBase}"/>
+            </div>
+            <div class="form-group">
+                <label for="categorie">Categorie</label>
+                <select id="categorie" name="categorie" class="form-control" th:field="*{categorie}">
+                    <option th:each="categorie : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.CategorieActe).values()}"
+                            th:value="${categorie}" th:text="${categorie}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

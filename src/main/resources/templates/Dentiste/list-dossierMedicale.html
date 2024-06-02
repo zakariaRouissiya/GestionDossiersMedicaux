@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Dossiers Médicaux</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Liste des Dossiers Médicaux</h1>
+        <a href="#" th:href="@{/dentiste/dossierMedicale/add}" class="btn btn-primary mb-3">Ajouter Dossier Médical</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Numéro de Dossier</th>
+                <th>Patient</th>
+                <th>Médecin Traitant</th>
+                <th>Date de Création</th>
+                <th>Statut de Paiement</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dossier : ${dossiers}">
+                <td th:text="${dossier.numeroDossier}"></td>
+                <td th:text="${dossier.patient.nom + ' ' + dossier.patient.prenom}"></td>
+                <td th:text="${dossier.medecinTraitant.nom + ' ' + dossier.medecinTraitant.prenom}"></td>
+                <td th:text="${dossier.dateCreation}"></td>
+                <td th:text="${dossier.statutPaiement}"></td>
+                <td>
+                    <a th:href="@{/dentiste/dossierMedicale/edit/{id}(id=${dossier.id})}" class="btn btn-success">Modifier</a>
+                    <a th:href="@{/dentiste/dossierMedicale/delete/{id}(id=${dossier.id})}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce dossier?')">Supprimer</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

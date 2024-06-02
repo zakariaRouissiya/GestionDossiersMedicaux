@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier Dossier Médical</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Modifier Dossier Médical</h1>
+        <form th:action="@{/dentiste/dossierMedicale/{id}(id=${dossierMedicale.id})}" th:object="${dossierMedicale}" method="post">
+            <div class="form-group">
+                <label for="patient">Patient</label>
+                <select id="patient" name="patient.id" class="form-control" th:field="*{patient.id}">
+                    <option th:each="patient : ${patients}" th:value="${patient.id}" th:text="${patient.nom + ' ' + patient.prenom}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="numeroDossier">Numéro de Dossier</label>
+                <input type="text" id="numeroDossier" name="numeroDossier" class="form-control" th:field="*{numeroDossier}"/>
+            </div>
+            <div class="form-group">
+                <label for="statutPaiement">Statut de Paiement</label>
+                <select id="statutPaiement" name="statutPaiement" class="form-control" th:field="*{statutPaiement}">
+                    <option th:each="statut : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.StatutPaiement).values()}"
+                            th:value="${statut}" th:text="${statut}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

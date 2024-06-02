@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des Actes</title>
+</head>
+<body>
+<div layout:fragment="content1">
+  <div class="container">
+    <h1>Liste des Actes</h1>
+    <a href="#" th:href="@{/dentiste/actes/add}" class="btn btn-primary mb-3">Ajouter Acte</a>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Libelle</th>
+        <th>Prix de Base</th>
+        <th>Categorie</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="acte : ${actes}">
+        <td th:text="${acte.libelle}"></td>
+        <td th:text="${acte.prixDeBase}"></td>
+        <td th:text="${acte.categorie}"></td>
+        <td>
+          <a th:href="@{/dentiste/actes/edit/{id}(id=${acte.idActe})}" class="btn btn-success">Modifier</a>
+          <a th:href="@{/dentiste/actes/delete/{id}(id=${acte.idActe})}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet acte?')">Supprimer</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

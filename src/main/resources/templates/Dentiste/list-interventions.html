@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Interventions</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Liste des Interventions</h1>
+        <a href="#" th:href="@{/dentiste/dossierMedicale/interventions/add}" class="btn btn-primary mb-3">Ajouter Intervention</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Note du Médecin</th>
+                <th>Prix Patient</th>
+                <th>Dent</th>
+                <th>Acte</th>
+                <th>Consultation</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="intervention : ${interventions}">
+                <td th:text="${intervention.noteMedecin}"></td>
+                <td th:text="${intervention.prixPatient}"></td>
+                <td th:text="${intervention.dent}"></td>
+                <td th:text="${intervention.acte.libelle}"></td>
+                <td th:text="${intervention.consultation.dateConsultation}"></td>
+                <td>
+                    <a th:href="@{/dentiste/dossierMedicale/interventions/edit/{id}(id=${intervention.idIntervention})}" class="btn btn-success">Modifier</a>
+                    <a th:href="@{/dentiste/dossierMedicale/interventions/delete/{id}(id=${intervention.idIntervention})}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette intervention?')">Supprimer</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
