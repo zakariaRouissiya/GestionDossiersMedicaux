@@ -31,7 +31,7 @@
             <div class="form-group">
                 <label for="consultation">Consultation</label>
                 <select id="consultation" name="consultation.idConsultation" class="form-control" th:field="*{consultation.idConsultation}">
-                    <option th:each="consultation : ${consultations}" th:value="${consultation.idConsultation}" th:text="${consultation.dateConsultation}"></option>
+                    <option th:each="consultation : ${consultations}" th:value="${consultation.idConsultation}" th:text="${#temporals.format(consultation.dateConsultation, 'dd/MM/yyyy') + ' - ' + consultation.dossierMedicale.patient.nom + ' ' + consultation.dossierMedicale.patient.prenom}"></option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>

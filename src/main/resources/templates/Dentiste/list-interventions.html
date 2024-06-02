@@ -9,7 +9,7 @@
 <div layout:fragment="content1">
     <div class="container">
         <h1>Liste des Interventions</h1>
-        <a href="#" th:href="@{/dentiste/dossierMedicale/interventions/add}" class="btn btn-primary mb-3">Ajouter Intervention</a>
+        <a th:href="@{/dentiste/dossierMedicale/interventions/add}" class="btn btn-primary mb-3">Ajouter Intervention</a>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -17,7 +17,7 @@
                 <th>Prix Patient</th>
                 <th>Dent</th>
                 <th>Acte</th>
-                <th>Consultation</th>
+                <th>Consultation (Date - Patient)</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -27,7 +27,7 @@
                 <td th:text="${intervention.prixPatient}"></td>
                 <td th:text="${intervention.dent}"></td>
                 <td th:text="${intervention.acte.libelle}"></td>
-                <td th:text="${intervention.consultation.dateConsultation}"></td>
+                <td th:text="${#temporals.format(intervention.consultation.dateConsultation, 'dd/MM/yyyy') + ' - ' + intervention.consultation.dossierMedicale.patient.nom + ' ' + intervention.consultation.dossierMedicale.patient.prenom}"></td>
                 <td>
                     <a th:href="@{/dentiste/dossierMedicale/interventions/edit/{id}(id=${intervention.idIntervention})}" class="btn btn-success">Modifier</a>
                     <a th:href="@{/dentiste/dossierMedicale/interventions/delete/{id}(id=${intervention.idIntervention})}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette intervention?')">Supprimer</a>

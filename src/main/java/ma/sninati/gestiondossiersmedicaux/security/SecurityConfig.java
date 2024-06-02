@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/webjars/**", "/vendor/**", "/css/**", "/img/**", "/js/**", "/scss/**").permitAll()
                         .requestMatchers("/admin/**","/editPatient/**").hasRole("ADMIN")
+                        .requestMatchers("/dentiste/**").hasRole("DENTISTE")
                         .requestMatchers("/patients/**").hasAnyRole("ADMIN", "SECRETAIRE", "DENTISTE")
                         .requestMatchers("/formPatients/**").hasAnyRole("ADMIN", "SECRETAIRE")
                         .anyRequest().authenticated()
