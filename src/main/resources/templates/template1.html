@@ -19,7 +19,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{patients}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/patients}">
             <div class="sidebar-brand-icon">
             </div>
             <div class="sidebar-brand-text mx-3">SNINATI</div>
@@ -30,7 +30,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" th:href="@{patients}">
+            <a class="nav-link" th:href="@{/patients}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Tableau de bord</span></a>
         </li>
@@ -40,7 +40,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Patient
+            Gestion Des Utilisateurs
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
@@ -51,6 +51,20 @@
                 <span>Patients</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" th:href="@{patients}">Liste Des Patients</a>
+                    <a class="collapse-item" th:href="@{formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Formulaire Patient</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"  data-toggle="collapse" data-target="#collapseThree"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Dentistes</span>
+            </a>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" th:href="@{patients}">Liste Des Patients</a>
                     <a class="collapse-item" th:href="@{formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Formulaire Patient</a>
@@ -199,7 +213,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; SNINATI 2020</span>
+                    <span>Copyright &copy; SNINATI 2024</span>
                 </div>
             </div>
         </footer>

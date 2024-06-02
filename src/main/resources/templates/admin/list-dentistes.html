@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Dentistes</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Liste des Dentistes</h1>
+        <a th:href="@{/admin/dentistes/add}" class="btn btn-primary">Ajouter Dentiste</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dentiste : ${dentistes}">
+                <td th:text="${dentiste.nom}"></td>
+                <td th:text="${dentiste.prenom}"></td>
+                <td th:text="${dentiste.email}"></td>
+                <td>
+                    <a th:href="@{/admin/dentistes/edit/{id}(id=${dentiste.id})}" class="btn btn-warning">Modifier</a>
+                    <a th:href="@{/admin/dentistes/delete/{id}(id=${dentiste.id})}" class="btn btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

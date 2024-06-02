@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier Dentiste</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Modifier Dentiste</h1>
+        <form th:action="@{/admin/dentistes/{id}(id=${dentiste.id})}" th:object="${dentiste}" method="post">
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" class="form-control" th:field="*{nom}"/>
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prenom</label>
+                <input type="text" id="prenom" name="prenom" class="form-control" th:field="*{prenom}"/>
+            </div>
+            <div class="form-group">
+                <label for="adresse">Adresse</label>
+                <input type="text" id="adresse" name="adresse" class="form-control" th:field="*{adresse}"/>
+            </div>
+            <div class="form-group">
+                <label for="telephone">Telephone</label>
+                <input type="text" id="telephone" name="telephone" class="form-control" th:field="*{telephone}"/>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" th:field="*{email}"/>
+            </div>
+            <div class="form-group">
+                <label for="cin">CIN</label>
+                <input type="text" id="cin" name="cin" class="form-control" th:field="*{cin}"/>
+            </div>
+            <div class="form-group">
+                <label for="nomUtilisateur">Nom Utilisateur</label>
+                <input type="text" id="nomUtilisateur" name="nomUtilisateur" class="form-control" th:field="*{nomUtilisateur}"/>
+            </div>
+            <div class="form-group">
+                <label for="motDePasse">Mot de Passe</label>
+                <input type="password" id="motDePasse" name="motDePasse" class="form-control" th:field="*{motDePasse}"/>
+            </div>
+            <div class="form-group">
+                <label for="dateRetourConge">Date Retour Conge</label>
+                <input type="date" id="dateRetourConge" name="dateRetourConge" class="form-control" th:field="*{dateRetourConge}"/>
+            </div>
+            <div class="form-group">
+                <label for="salaireDeBase">Salaire De Base</label>
+                <input type="number" step="0.01" id="salaireDeBase" name="salaireDeBase" class="form-control" th:field="*{salaireDeBase}"/>
+            </div>
+            <div class="form-group">
+                <label for="specialite">Specialite</label>
+                <select id="specialite" name="specialite" class="form-control" th:field="*{specialite}">
+                    <option th:each="specialite : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.Specialite).values()}"
+                            th:value="${specialite}" th:text="${specialite}"></option>
+                </select>
+            </div>
+<!--            <div class="form-group">
+                <label for="disponibilite">Disponibilite</label>
+                <select id="disponibilite" name="disponibilite" class="form-control" th:field="*{disponibilite}">
+                    <option th:each="disponibilite : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.Disponibilite).values()}"
+                            th:value="${disponibilite}" th:text="${disponibilite}"></option>
+                </select>
+            </div>-->
+            <div class="form-group">
+                <label for="assurance">Assurance</label>
+                <select id="assurance" name="assurance" class="form-control" th:field="*{assurance}">
+                    <option th:each="assurance : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.Assurance).values()}"
+                            th:value="${assurance}" th:text="${assurance}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="statusActuel">Status Actuel</label>
+                <select id="statusActuel" name="statusActuel" class="form-control" th:field="*{statusActuel}">
+                    <option th:each="status : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.StatusEmploye).values()}"
+                            th:value="${status}" th:text="${status}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

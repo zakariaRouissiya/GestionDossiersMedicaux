@@ -8,6 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content1">
+    <div class="container">
         <form method="post" th:action="@{save}" class="col-md-6 offset-3">
             <div th:class="form-group">
                 <label for="nom">Nom</label>
@@ -56,14 +57,15 @@
                 </select>
                 <span th:errors="${patient.groupeSanguin}"></span>
             </div>
-<!--            <div th:class="form-group">
-                <label for="profession">Profession</label>
-                <input type="text" class="form-control" id="profession" name="profession"
-                       th:value="${patient.profession}">
-                <span th:errors="${patient.profession}"></span>
-            </div>-->
+            <!--            <div th:class="form-group">
+                            <label for="profession">Profession</label>
+                            <input type="text" class="form-control" id="profession" name="profession"
+                                   th:value="${patient.profession}">
+                            <span th:errors="${patient.profession}"></span>
+                        </div>-->
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
+    </div>
 </div>
 </body>
 </html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+    <title>Modifier Utilisateur</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Modifier Utilisateur</h1>
+        <form th:action="@{/admin/users/{id}(id=${user.id})}" th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" class="form-control" th:field="*{nom}"/>
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prenom</label>
+                <input type="text" id="prenom" name="prenom" class="form-control" th:field="*{prenom}"/>
+            </div>
+            <div class="form-group">
+                <label for="adresse">Adresse</label>
+                <input type="text" id="adresse" name="adresse" class="form-control" th:field="*{adresse}"/>
+            </div>
+            <div class="form-group">
+                <label for="telephone">Telephone</label>
+                <input type="text" id="telephone" name="telephone" class="form-control" th:field="*{telephone}"/>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" th:field="*{email}"/>
+            </div>
+            <div class="form-group">
+                <label for="cin">CIN</label>
+                <input type="text" id="cin" name="cin" class="form-control" th:field="*{cin}"/>
+            </div>
+            <div class="form-group">
+                <label for="nomUtilisateur">Nom Utilisateur</label>
+                <input type="text" id="nomUtilisateur" name="nomUtilisateur" class="form-control" th:field="*{nomUtilisateur}"/>
+            </div>
+            <div class="form-group">
+                <label for="motDePasse">Mot de Passe</label>
+                <input type="password" id="motDePasse" name="motDePasse" class="form-control" th:field="*{motDePasse}"/>
+            </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" class="form-control" th:field="*{role}">
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="DENTISTE">DENTISTE</option>
+                    <option value="SECRETAIRE">SECRETAIRE</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
