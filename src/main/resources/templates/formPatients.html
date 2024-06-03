@@ -57,12 +57,12 @@
                 </select>
                 <span th:errors="${patient.groupeSanguin}"></span>
             </div>
-            <!--            <div th:class="form-group">
-                            <label for="profession">Profession</label>
-                            <input type="text" class="form-control" id="profession" name="profession"
-                                   th:value="${patient.profession}">
-                            <span th:errors="${patient.profession}"></span>
-                        </div>-->
+            <div th:class="form-group">
+                <label for="dentiste">Dentiste</label>
+                <select class="form-select" id="dentiste" name="dentisteId">
+                    <option th:each="dentiste : ${dentistes}" th:value="${dentiste.id}" th:text="${dentiste.nom + ' ' + dentiste.prenom}"></option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
     </div>

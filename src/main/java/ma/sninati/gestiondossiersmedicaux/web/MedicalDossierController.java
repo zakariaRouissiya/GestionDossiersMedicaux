@@ -2,6 +2,7 @@ package ma.sninati.gestiondossiersmedicaux.web;
 
 import ma.sninati.gestiondossiersmedicaux.entities.*;
 import ma.sninati.gestiondossiersmedicaux.repositories.*;
+import ma.sninati.gestiondossiersmedicaux.services.FactureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/dentiste/dossierMedicale")
@@ -28,6 +31,9 @@ public class MedicalDossierController {
     private ActeRepository acteRepository;
 
     @Autowired
+    private FactureService factureService;
+
+    @Autowired
     private PatientRepository patientRepository;
 
     @Autowired
@@ -38,8 +44,8 @@ public class MedicalDossierController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Dentiste dentiste = (Dentiste) utilisateurRepository.findByEmail(authentication.getName());
         List<DossierMedicale> dossiers = dossierMedicaleRepository.findAll().stream()
-                .filter(d -> d.getMedecinTraitant().getId().equals(dentiste.getId()))
-                .toList();
+                .filter(d -> d.getMedecinTraitant() != null && d.getMedecinTraitant().getId().equals(dentiste.getId()))
+                .collect(Collectors.toList());
         model.addAttribute("dossiers", dossiers);
         return "dentiste/list-dossierMedicale";
     }
@@ -56,6 +62,7 @@ public class MedicalDossierController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Dentiste dentiste = (Dentiste) utilisateurRepository.findByEmail(authentication.getName());
         dossierMedicale.setMedecinTraitant(dentiste);
+        dossierMedicale.setDateCreation(LocalDate.now());
         dossierMedicaleRepository.save(dossierMedicale);
         return "redirect:/dentiste/dossierMedicale";
     }
@@ -73,12 +80,17 @@ public class MedicalDossierController {
     public String updateDossier(@PathVariable Long id, @ModelAttribute("dossierMedicale") DossierMedicale dossierMedicale) {
         DossierMedicale existingDossier = dossierMedicaleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid dossier Id:" + id));
-        existingDossier.setConsultations(dossierMedicale.getConsultations());
-        existingDossier.setDateCreation(dossierMedicale.getDateCreation());
+        existingDossier.setDateCreation(LocalDate.now());
         existingDossier.setPatient(dossierMedicale.getPatient());
-        existingDossier.setMedecinTraitant(dossierMedicale.getMedecinTraitant());
+        existingDossier.setMedecinTraitant(dossierMedicale.getMedecinTraitant() != null ? dossierMedicale.getMedecinTraitant() : existingDossier.getMedecinTraitant());
         existingDossier.setNumeroDossier(dossierMedicale.getNumeroDossier());
         existingDossier.setStatutPaiement(dossierMedicale.getStatutPaiement());
+
+        if (dossierMedicale.getConsultations() != null) {
+            existingDossier.getConsultations().clear();
+            existingDossier.getConsultations().addAll(dossierMedicale.getConsultations());
+        }
+
         dossierMedicaleRepository.save(existingDossier);
         return "redirect:/dentiste/dossierMedicale";
     }
@@ -91,18 +103,26 @@ public class MedicalDossierController {
         return "redirect:/dentiste/dossierMedicale";
     }
 
-    // CRUD for Consultation
     @GetMapping("/consultations")
     public String listConsultations(Model model) {
-        List<Consultation> consultations = consultationRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Dentiste dentiste = (Dentiste) utilisateurRepository.findByEmail(authentication.getName());
+        List<Consultation> consultations = consultationRepository.findAll().stream()
+                .filter(c -> c.getDossierMedicale().getMedecinTraitant().getId().equals(dentiste.getId()))
+                .collect(Collectors.toList());
         model.addAttribute("consultations", consultations);
         return "dentiste/list-consultations";
     }
 
     @GetMapping("/consultations/add")
     public String addConsultationForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Dentiste dentiste = (Dentiste) utilisateurRepository.findByEmail(authentication.getName());
+        List<DossierMedicale> filteredDossiers = dossierMedicaleRepository.findAll().stream()
+                .filter(d -> d.getMedecinTraitant().getId().equals(dentiste.getId()))
+                .collect(Collectors.toList());
         model.addAttribute("consultation", new Consultation());
-        model.addAttribute("dossiers", dossierMedicaleRepository.findAll());
+        model.addAttribute("dossiers", filteredDossiers);
         return "dentiste/add-consultation";
     }
 
@@ -116,8 +136,13 @@ public class MedicalDossierController {
     public String editConsultationForm(@PathVariable Long id, Model model) {
         Consultation consultation = consultationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid consultation Id:" + id));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Dentiste dentiste = (Dentiste) utilisateurRepository.findByEmail(authentication.getName());
+        List<DossierMedicale> filteredDossiers = dossierMedicaleRepository.findAll().stream()
+                .filter(d -> d.getMedecinTraitant().getId().equals(dentiste.getId()))
+                .collect(Collectors.toList());
         model.addAttribute("consultation", consultation);
-        model.addAttribute("dossiers", dossierMedicaleRepository.findAll());
+        model.addAttribute("dossiers", filteredDossiers);
         return "dentiste/edit-consultation";
     }
 
@@ -140,18 +165,26 @@ public class MedicalDossierController {
         return "redirect:/dentiste/dossierMedicale/consultations";
     }
 
-    // CRUD for InterventionMedecin
     @GetMapping("/interventions")
     public String listInterventions(Model model) {
-        List<InterventionMedecin> interventions = interventionMedecinRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Dentiste dentiste = (Dentiste) utilisateurRepository.findByEmail(authentication.getName());
+        List<InterventionMedecin> interventions = interventionMedecinRepository.findAll().stream()
+                .filter(i -> i.getConsultation().getDossierMedicale().getMedecinTraitant().getId().equals(dentiste.getId()))
+                .collect(Collectors.toList());
         model.addAttribute("interventions", interventions);
         return "dentiste/list-interventions";
     }
 
     @GetMapping("/interventions/add")
     public String addInterventionForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Dentiste dentiste = (Dentiste) utilisateurRepository.findByEmail(authentication.getName());
+        List<Consultation> filteredConsultations = consultationRepository.findAll().stream()
+                .filter(c -> c.getDossierMedicale().getMedecinTraitant().getId().equals(dentiste.getId()))
+                .collect(Collectors.toList());
         model.addAttribute("intervention", new InterventionMedecin());
-        model.addAttribute("consultations", consultationRepository.findAll());
+        model.addAttribute("consultations", filteredConsultations);
         model.addAttribute("actes", acteRepository.findAll());
         return "dentiste/add-intervention";
     }
@@ -166,8 +199,13 @@ public class MedicalDossierController {
     public String editInterventionForm(@PathVariable Long id, Model model) {
         InterventionMedecin intervention = interventionMedecinRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid intervention Id:" + id));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Dentiste dentiste = (Dentiste) utilisateurRepository.findByEmail(authentication.getName());
+        List<Consultation> filteredConsultations = consultationRepository.findAll().stream()
+                .filter(c -> c.getDossierMedicale().getMedecinTraitant().getId().equals(dentiste.getId()))
+                .collect(Collectors.toList());
         model.addAttribute("intervention", intervention);
-        model.addAttribute("consultations", consultationRepository.findAll());
+        model.addAttribute("consultations", filteredConsultations);
         model.addAttribute("actes", acteRepository.findAll());
         return "dentiste/edit-intervention";
     }
@@ -191,5 +229,19 @@ public class MedicalDossierController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid intervention Id:" + id));
         interventionMedecinRepository.delete(intervention);
         return "redirect:/dentiste/dossierMedicale/interventions";
+    }
+
+    @GetMapping("/facture/consultation/{id}")
+    public String generateFactureForConsultation(@PathVariable Long id, Model model) {
+        Facture facture = factureService.generateFactureForConsultation(id);
+        model.addAttribute("facture", facture);
+        return "dentiste/view-facture";
+    }
+
+    @GetMapping("/facture/dossier/{id}")
+    public String generateFactureForDossier(@PathVariable Long id, Model model) {
+        Facture facture = factureService.generateFactureForDossierMedicale(id);
+        model.addAttribute("facture", facture);
+        return "dentiste/view-facture";
     }
 }

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Facture</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1>Facture</h1>
+        <p>Date de Facturation: <span th:text="${facture.dateFacturation}"></span></p>
+        <p>Montant Total: <span th:text="${facture.montantTotal}"></span> EUR</p>
+        <p>Montant Payé: <span th:text="${facture.montantPaye}"></span> EUR</p>
+        <p>Montant Restant: <span th:text="${facture.montantRestant}"></span> EUR</p>
+        <p>Type de Paiement: <span th:text="${facture.typePaiement}"></span></p>
+    </div>
+</div>
+</body>
+</html>

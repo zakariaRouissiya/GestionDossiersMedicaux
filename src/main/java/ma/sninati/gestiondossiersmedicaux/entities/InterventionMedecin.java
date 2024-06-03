@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class InterventionMedecin {
 
@@ -24,5 +26,4 @@ public class InterventionMedecin {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_consultation")
     private Consultation consultation;
-
 }

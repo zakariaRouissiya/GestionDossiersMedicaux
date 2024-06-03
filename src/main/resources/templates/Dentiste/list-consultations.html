@@ -23,7 +23,7 @@
             <tr th:each="consultation : ${consultations}">
                 <td th:text="${consultation.dateConsultation}"></td>
                 <td th:text="${consultation.typeConsultation}"></td>
-                <td th:text="${consultation.dossierMedicale.numeroDossier}"></td>
+                <td th:text="${consultation.dossierMedicale.patient.nom + ' ' + consultation.dossierMedicale.patient.prenom}"></td>
                 <td>
                     <a th:href="@{/dentiste/dossierMedicale/consultations/edit/{id}(id=${consultation.idConsultation})}" class="btn btn-success">Modifier</a>
                     <a th:href="@{/dentiste/dossierMedicale/consultations/delete/{id}(id=${consultation.idConsultation})}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette consultation?')">Supprimer</a>

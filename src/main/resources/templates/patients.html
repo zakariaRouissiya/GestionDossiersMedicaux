@@ -12,7 +12,21 @@
     <link rel="stylesheet" type="text/css" href="/css/sb-admin-2.min.css">
     <style>
         .table-responsive {
-            overflow-x: unset; /* Désactive le défilement horizontal */
+            overflow-x: unset;
+        }
+        .table th, .table td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+        .table thead th {
+            background-color: #f8f9fc;
+            color: #4e73df;
+        }
+        .table tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fc;
+        }
+        .table tbody tr:hover {
+            background-color: #d1d3e2;
         }
     </style>
 </head>
@@ -21,7 +35,6 @@
     <div class="container">
         <div class="container-fluid">
             <!-- DataTales Example -->
-            <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Liste Des Patients</h6>
                 </div>
@@ -39,7 +52,7 @@
                             </div>
                         </div>
                     </form>
-                    <div class="table-responsive" style="width: 100%;">
+                    <div class="table-responsive">
                         <table class="table table-bordered w-100" id="dataTable">
                             <thead>
                             <tr>
@@ -51,8 +64,6 @@
                                 <th>Date de Naissance</th>
                                 <th>Mutuelle</th>
                                 <th>Groupe Sanguin</th>
-                                <!--<th>Profession</th>-->
-                                <!--<th>Adresse</th>-->
                                 <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Actions</th>
                             </tr>
                             </thead>
@@ -66,15 +77,6 @@
                                 <td th:text="${patient.dateNaissance}"></td>
                                 <td th:text="${patient.mutuelle}"></td>
                                 <td th:text="${patient.groupeSanguin}"></td>
-                                <!--<td th:text="${patient.profession}"></td>-->
-                                <!--<td>
-                                    <div>
-                                        <span th:text="${patient.adresse.rue}"></span><br>
-                                        <span th:text="${patient.adresse.ville}"></span>,
-                                        <span th:text="${patient.adresse.codePostal}"></span><br>
-                                        <span th:text="${patient.adresse.pays}"></span>
-                                    </div>
-                                </td>-->
                                 <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                                     <div class="d-flex flex-column">
                                         <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger mb-2"
@@ -95,7 +97,6 @@
                         </ul>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>

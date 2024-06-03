@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label for="dossierMedicale">Dossier Médical</label>
                 <select id="dossierMedicale" name="dossierMedicale.id" class="form-control" th:field="*{dossierMedicale.id}">
-                    <option th:each="dossier : ${dossiers}" th:value="${dossier.id}" th:text="${dossier.numeroDossier}"></option>
+                    <option th:each="dossier : ${dossiers}" th:value="${dossier.id}" th:text="${dossier.patient.nom + ' ' + dossier.patient.prenom}"></option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>

@@ -16,4 +16,11 @@ public class Admin extends Utilisateur{
 
     String adminKey;
 
+    public Admin(Utilisateur utilisateur) {
+        super(utilisateur.getId(), utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getAdresse(),
+                utilisateur.getTelephone(), utilisateur.getEmail(), utilisateur.getCin(),
+                utilisateur.getMotDePasse(), utilisateur.getNomUtilisateur(), utilisateur.getRole());
+    }
+
+
 }

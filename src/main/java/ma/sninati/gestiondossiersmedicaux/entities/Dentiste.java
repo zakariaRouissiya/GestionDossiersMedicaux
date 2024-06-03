@@ -39,4 +39,10 @@ public class Dentiste extends  Utilisateur{
     @OneToMany( mappedBy = "medecinTraitant", fetch = FetchType.LAZY)
     private List<DossierMedicale> dossierTraites;
 
+    public Dentiste(Utilisateur utilisateur) {
+        super(utilisateur.getId(), utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getAdresse(),
+                utilisateur.getTelephone(), utilisateur.getEmail(), utilisateur.getCin(),
+                utilisateur.getMotDePasse(), utilisateur.getNomUtilisateur(), utilisateur.getRole());
+    }
+
 }

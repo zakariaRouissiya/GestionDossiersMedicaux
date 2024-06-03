@@ -26,7 +26,4 @@ public class Personne {
     private String email;
     private String cin;
 
-
-
-
 }

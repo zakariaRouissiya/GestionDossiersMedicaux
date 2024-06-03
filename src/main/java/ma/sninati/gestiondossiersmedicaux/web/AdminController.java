@@ -1,10 +1,7 @@
 package ma.sninati.gestiondossiersmedicaux.web;
 
-import ma.sninati.gestiondossiersmedicaux.entities.CustomUserDetails;
-import ma.sninati.gestiondossiersmedicaux.entities.Dentiste;
+import ma.sninati.gestiondossiersmedicaux.entities.*;
 import ma.sninati.gestiondossiersmedicaux.entities.Enums.Role;
-import ma.sninati.gestiondossiersmedicaux.entities.Secretaire;
-import ma.sninati.gestiondossiersmedicaux.entities.Utilisateur;
 import ma.sninati.gestiondossiersmedicaux.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,7 +52,23 @@ public class AdminController {
     @PostMapping("/users")
     public String saveUser(@ModelAttribute("user") Utilisateur user) {
         user.setMotDePasse(passwordEncoder.encode(user.getMotDePasse()));
-        utilisateurRepository.save(user);
+        switch (user.getRole()) {
+            case ADMIN:
+                utilisateurRepository.save(new Admin(user));
+                user.setRole(Role.ADMIN);
+                break;
+            case DENTISTE:
+                utilisateurRepository.save(new Dentiste(user));
+                user.setRole(Role.DENTISTE);
+                break;
+            case SECRETAIRE:
+                utilisateurRepository.save(new Secretaire(user));
+                user.setRole(Role.SECRETAIRE);
+                break;
+            default:
+                utilisateurRepository.save(user);
+        }
+
         return "redirect:/admin/users";
     }
 
@@ -177,7 +190,9 @@ public class AdminController {
     public String saveSecretaire(@ModelAttribute("secretaire") Secretaire secretaire) {
         secretaire.setMotDePasse(passwordEncoder.encode(secretaire.getMotDePasse()));
         secretaire.setRole(Role.SECRETAIRE);
+
         utilisateurRepository.save(secretaire);
+
         return "redirect:/admin/secretaires";
     }
 
@@ -216,5 +231,4 @@ public class AdminController {
         utilisateurRepository.delete(secretaire);
         return "redirect:/admin/secretaires";
     }
-
 }

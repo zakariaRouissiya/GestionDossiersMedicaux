@@ -9,7 +9,9 @@ import ma.sninati.gestiondossiersmedicaux.entities.Enums.TypeConsultation;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Consultation {
 
@@ -17,20 +19,29 @@ public class Consultation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idConsultation;
 
-    @OneToMany(mappedBy = "consultation", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "consultation", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InterventionMedecin> interventions;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn( name = "id_dossiermedicale")
+    @JoinColumn(name = "id_dossiermedicale")
     private DossierMedicale dossierMedicale;
-
 
     private LocalDate dateConsultation;
 
     @Enumerated(EnumType.STRING)
     private TypeConsultation typeConsultation;
 
-    @OneToMany(mappedBy = "consultation", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "consultation", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Facture> factures;
 
+    public double calculateTotalAmount() {
+        double totalAmount = 200;
+        for (InterventionMedecin intervention : interventions) {
+            totalAmount += intervention.getPrixPatient();
+            if (intervention.getActe() != null) {
+                totalAmount += intervention.getActe().getPrixDeBase();
+            }
+        }
+        return totalAmount;
+    }
 }

@@ -45,29 +45,42 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed"  data-toggle="collapse" data-target="#collapseTwo"
+            <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
+                <i class="fas fa-fw fa-user-injured"></i>
                 <span>Patients</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" th:href="@{patients}">Liste Des Patients</a>
-                    <a class="collapse-item" th:href="@{formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Formulaire Patient</a>
+                    <a class="collapse-item" th:href="@{/patients}">Liste Des Patients</a>
+                    <a class="collapse-item" th:href="@{/formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Formulaire Patient</a>
                 </div>
             </div>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed"  data-toggle="collapse" data-target="#collapseThree"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
+
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+            <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseDentistes"
+               aria-expanded="true" aria-controls="collapseDentistes">
+                <i class="fas fa-fw fa-user-md"></i>
                 <span>Dentistes</span>
             </a>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapseDentistes" class="collapse" aria-labelledby="headingDentistes" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" th:href="@{patients}">Liste Des Patients</a>
-                    <a class="collapse-item" th:href="@{formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Formulaire Patient</a>
+                    <a class="collapse-item" th:href="@{/admin/dentistes}">Liste des Dentistes</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+            <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseSecretaires"
+               aria-expanded="true" aria-controls="collapseSecretaires">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Secrétaires</span>
+            </a>
+            <div id="collapseSecretaires" class="collapse" aria-labelledby="headingSecretaires" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" th:href="@{/admin/secretaires}">Liste des Secrétaires</a>
                 </div>
             </div>
         </li>
@@ -81,7 +94,7 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+<!--        <li class="nav-item">
             <a class="nav-link collapsed"  data-toggle="collapse" data-target="#collapsePages"
                aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-fw fa-folder"></i>
@@ -99,7 +112,7 @@
                     <a class="collapse-item">Blank Page</a>
                 </div>
             </div>
-        </li>
+        </li>-->
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
@@ -109,11 +122,11 @@
         </li>
 
         <!-- Nav Item - Tables -->
-        <li class="nav-item">
+<!--        <li class="nav-item">
             <a class="nav-link">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Tables</span></a>
-        </li>
+        </li>-->
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
