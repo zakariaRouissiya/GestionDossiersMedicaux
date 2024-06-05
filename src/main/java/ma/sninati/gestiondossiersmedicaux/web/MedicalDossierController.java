@@ -1,15 +1,22 @@
 package ma.sninati.gestiondossiersmedicaux.web;
 
+import lombok.extern.flogger.Flogger;
 import ma.sninati.gestiondossiersmedicaux.entities.*;
 import ma.sninati.gestiondossiersmedicaux.repositories.*;
 import ma.sninati.gestiondossiersmedicaux.services.FactureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -192,8 +199,11 @@ public class MedicalDossierController {
     @PostMapping("/interventions")
     public String saveIntervention(@ModelAttribute("intervention") InterventionMedecin intervention) {
         interventionMedecinRepository.save(intervention);
+        Facture facture = factureService.generateFactureForConsultation(intervention.getConsultation().getIdConsultation());
+        Long factureId = facture.getIdFacture();  // Récupérer l'ID de la facture
         return "redirect:/dentiste/dossierMedicale/interventions";
     }
+
 
     @GetMapping("/interventions/edit/{id}")
     public String editInterventionForm(@PathVariable Long id, Model model) {
@@ -231,17 +241,19 @@ public class MedicalDossierController {
         return "redirect:/dentiste/dossierMedicale/interventions";
     }
 
-    @GetMapping("/facture/consultation/{id}")
-    public String generateFactureForConsultation(@PathVariable Long id, Model model) {
-        Facture facture = factureService.generateFactureForConsultation(id);
-        model.addAttribute("facture", facture);
-        return "dentiste/view-facture";
+    @GetMapping("/facture/download/{consultationId}/{factureId}")
+    public ResponseEntity<InputStreamResource> downloadFacture(@PathVariable Long consultationId, @PathVariable Long factureId) throws IOException {
+        ByteArrayInputStream bis = factureService.generatePdfForFacture(factureId, consultationId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=facture.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
     }
 
-    @GetMapping("/facture/dossier/{id}")
-    public String generateFactureForDossier(@PathVariable Long id, Model model) {
-        Facture facture = factureService.generateFactureForDossierMedicale(id);
-        model.addAttribute("facture", facture);
-        return "dentiste/view-facture";
-    }
+
 }

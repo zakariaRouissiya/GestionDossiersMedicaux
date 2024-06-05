@@ -35,68 +35,69 @@
     <div class="container">
         <div class="container-fluid">
             <!-- DataTales Example -->
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Liste Des Patients</h6>
-                </div>
-                <div class="card-body">
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-1 my-2 my-md-0 mw-100 navbar-search mb-3"
-                          method="get" th:action="@{patients}">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                   aria-label="Search" aria-describedby="basic-addon2" name="keyword" th:value="${keyword}">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Liste Des Patients</h6>
+            </div>
+            <div class="card-body">
+                <!-- Topbar Search -->
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-1 my-2 my-md-0 mw-100 navbar-search mb-3"
+                      method="get" th:action="@{patients}">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                               aria-label="Search" aria-describedby="basic-addon2" name="keyword" th:value="${keyword}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
                         </div>
-                    </form>
-                    <div class="table-responsive">
-                        <table class="table table-bordered w-100" id="dataTable">
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Nom Complet</th>
-                                <th>Téléphone</th>
-                                <th>Email</th>
-                                <th>CIN</th>
-                                <th>Date de Naissance</th>
-                                <th>Mutuelle</th>
-                                <th>Groupe Sanguin</th>
-                                <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="patient : ${listePatients}">
-                                <td th:text="${patient.id}"></td>
-                                <td th:text="${patient.nom + ' ' + patient.prenom}"></td>
-                                <td th:text="${patient.telephone}"></td>
-                                <td th:text="${patient.email}"></td>
-                                <td th:text="${patient.cin}"></td>
-                                <td th:text="${patient.dateNaissance}"></td>
-                                <td th:text="${patient.mutuelle}"></td>
-                                <td th:text="${patient.groupeSanguin}"></td>
-                                <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-                                    <div class="d-flex flex-column">
-                                        <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger mb-2"
-                                           th:href="@{delete(id=${patient.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
-                                        <a class="btn btn-success"
-                                           th:href="@{editPatient(id=${patient.id},keyword=${keyword},page=${currentPage})}">Modifier</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <ul class="nav nav-pills">
-                            <li th:each="page,status:${pages}">
-                                <a th:class="${status.index==currentPage?'btn btn-dark ms-1':'btn btn-outline-dark ms-1'}"
-                                   th:text="${status.index}"
-                                   th:href="@{patients(page=${status.index},keyword=${keyword})}"></a>
-                            </li>
-                        </ul>
                     </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-bordered w-100" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom Complet</th>
+                            <th>Téléphone</th>
+                            <th>Email</th>
+                            <th>CIN</th>
+                            <th>Date de Naissance</th>
+                            <th>Mutuelle</th>
+                            <th>Groupe Sanguin</th>
+                            <th th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="patient : ${listePatients}">
+                            <td th:text="${patient.id}"></td>
+                            <td th:text="${patient.nom + ' ' + patient.prenom}"></td>
+                            <td th:text="${patient.telephone}"></td>
+                            <td th:text="${patient.email}"></td>
+                            <td th:text="${patient.cin}"></td>
+                            <td th:text="${patient.dateNaissance}"></td>
+                            <td th:text="${patient.mutuelle}"></td>
+                            <td th:text="${patient.groupeSanguin}"></td>
+                            <td th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">
+                                <div class="d-flex flex-column">
+                                    <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger mb-2"
+                                       th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+                                       th:href="@{delete(id=${patient.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
+                                    <a class="btn btn-success"
+                                       th:href="@{editPatient(id=${patient.id},keyword=${keyword},page=${currentPage})}">Modifier</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="nav nav-pills">
+                        <li th:each="page,status:${pages}">
+                            <a th:class="${status.index==currentPage?'btn btn-dark ms-1':'btn btn-outline-dark ms-1'}"
+                               th:text="${status.index}"
+                               th:href="@{patients(page=${status.index},keyword=${keyword})}"></a>
+                        </li>
+                    </ul>
                 </div>
+            </div>
         </div>
     </div>
 </div>

@@ -33,10 +33,10 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/webjars/**", "/vendor/**", "/css/**", "/img/**", "/js/**", "/scss/**").permitAll()
+                        .requestMatchers("/formPatients/**","/editPatient/**").hasAnyRole("ADMIN", "SECRETAIRE")
                         .requestMatchers("/admin/**","/editPatient/**").hasRole("ADMIN")
                         .requestMatchers("/dentiste/**").hasRole("DENTISTE")
                         .requestMatchers("/patients/**").hasAnyRole("ADMIN", "SECRETAIRE", "DENTISTE")
-                        .requestMatchers("/formPatients/**","/editPatient/**").hasAnyRole("ADMIN", "SECRETAIRE")
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout.permitAll())

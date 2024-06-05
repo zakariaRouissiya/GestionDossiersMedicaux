@@ -19,9 +19,9 @@ public class HomeController {
         if (user.getRole() == Role.ADMIN) {
             return "redirect:/admin/users";
         } else if (user.getRole() == Role.DENTISTE) {
-            return "redirect:/dentiste";
+            return "redirect:/dentiste/dossierMedicale";
         } else if (user.getRole() == Role.SECRETAIRE) {
-            return "redirect:/secretaire";
+            return "redirect:/patients";
         } else {
             return "redirect:/login";
         }

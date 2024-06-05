@@ -54,6 +54,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" th:href="@{/patients}">Liste Des Patients</a>
                     <a class="collapse-item" th:href="@{/formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Formulaire Patient</a>
+                    <a class="collapse-item" th:href="@{/dentiste/dossierMedicale}" th:if="${#authorization.expression('hasRole(''DENTISTE'')')}">Dossiers Medicaux</a>
                 </div>
             </div>
         </li>

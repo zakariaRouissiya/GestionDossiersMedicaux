@@ -27,6 +27,11 @@
                 <td>
                     <a th:href="@{/dentiste/dossierMedicale/consultations/edit/{id}(id=${consultation.idConsultation})}" class="btn btn-success">Modifier</a>
                     <a th:href="@{/dentiste/dossierMedicale/consultations/delete/{id}(id=${consultation.idConsultation})}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette consultation?')">Supprimer</a>
+                    <a th:if="${consultation.factures.size() > 0}"
+                       th:href="@{/dentiste/dossierMedicale/facture/download/{consultationId}/{factureId}(consultationId=${consultation.idConsultation}, factureId=${consultation.factures[0].idFacture})}"
+                       class="btn btn-info">
+                        Télécharger la facture
+                    </a>
                 </td>
             </tr>
             </tbody>

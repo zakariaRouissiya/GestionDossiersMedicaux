@@ -35,13 +35,18 @@ public class Consultation {
     private List<Facture> factures;
 
     public double calculateTotalAmount() {
-        double totalAmount = 200;
+        double totalAmount = 200.0;
         for (InterventionMedecin intervention : interventions) {
-            totalAmount += intervention.getPrixPatient();
-            if (intervention.getActe() != null) {
+            if (intervention.getPrixPatient() != null) {
+                totalAmount += intervention.getPrixPatient();
+            }
+            if (intervention.getActe() != null && intervention.getActe().getPrixDeBase() != null) {
                 totalAmount += intervention.getActe().getPrixDeBase();
             }
         }
         return totalAmount;
     }
+
+
+
 }

@@ -4,23 +4,28 @@ import lombok.AllArgsConstructor;
 import ma.sninati.gestiondossiersmedicaux.entities.Dentiste;
 import ma.sninati.gestiondossiersmedicaux.entities.DossierMedicale;
 import ma.sninati.gestiondossiersmedicaux.entities.Patient;
+import ma.sninati.gestiondossiersmedicaux.entities.Utilisateur;
 import ma.sninati.gestiondossiersmedicaux.repositories.DossierMedicaleRepository;
 import ma.sninati.gestiondossiersmedicaux.repositories.PatientRepository;
 import ma.sninati.gestiondossiersmedicaux.repositories.UtilisateurRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
 public class PatientController {
-    private PatientRepository patientRepository;
-    private DossierMedicaleRepository dossierMedicaleRepository;
-    private UtilisateurRepository utilisateurRepository;
+    private final PatientRepository patientRepository;
+    private final DossierMedicaleRepository dossierMedicaleRepository;
+    private final UtilisateurRepository utilisateurRepository;
 
     @GetMapping("/")
     public String home() {
@@ -41,7 +46,22 @@ public class PatientController {
     public String patients(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
                            @RequestParam(name = "size", defaultValue = "5") int size,
                            @RequestParam(name = "keyword", defaultValue = "") String keyword) {
-        Page<Patient> pagePatients = patientRepository.findByNomContains(keyword, PageRequest.of(page, size));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Utilisateur utilisateur = utilisateurRepository.findByEmail(authentication.getName());
+        Page<Patient> pagePatients;
+
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_SECRETAIRE"))) {
+            pagePatients = patientRepository.findByNomContains(keyword, PageRequest.of(page, size));
+        } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_DENTISTE"))) {
+            Dentiste dentiste = (Dentiste) utilisateur;
+            List<Patient> patients = dossierMedicaleRepository.findByMedecinTraitantId(dentiste.getId()).stream()
+                    .map(DossierMedicale::getPatient)
+                    .collect(Collectors.toList());
+            pagePatients = new PageImpl<>(patients, PageRequest.of(page, size), patients.size());
+        } else {
+            pagePatients = Page.empty();
+        }
+
         model.addAttribute("listePatients", pagePatients.getContent());
         model.addAttribute("pages", new int[pagePatients.getTotalPages()]);
         model.addAttribute("currentPage", page);
@@ -66,7 +86,7 @@ public class PatientController {
         model.addAttribute("patient", new Patient());
         model.addAttribute("dentistes", utilisateurRepository.findAll().stream()
                 .filter(u -> u instanceof Dentiste)
-                .map(u -> (Dentiste) u).toList());
+                .map(u -> (Dentiste) u).collect(Collectors.toList()));
         return "formPatients";
     }
 
@@ -94,7 +114,7 @@ public class PatientController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("dentistes", utilisateurRepository.findAll().stream()
                 .filter(u -> u instanceof Dentiste)
-                .map(u -> (Dentiste) u).toList());
+                .map(u -> (Dentiste) u).collect(Collectors.toList()));
         return "editPatient";
     }
 }
