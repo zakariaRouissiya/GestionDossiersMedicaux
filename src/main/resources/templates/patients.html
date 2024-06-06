@@ -79,11 +79,10 @@
                             <td th:text="${patient.groupeSanguin}"></td>
                             <td th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">
                                 <div class="d-flex flex-column">
-                                    <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger mb-2"
-                                       th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
-                                       th:href="@{delete(id=${patient.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
-                                    <a class="btn btn-success"
+                                    <a class="btn btn-success mb-2"
                                        th:href="@{editPatient(id=${patient.id},keyword=${keyword},page=${currentPage})}">Modifier</a>
+                                    <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger"
+                                       th:href="@{delete(id=${patient.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
                                 </div>
                             </td>
                         </tr>

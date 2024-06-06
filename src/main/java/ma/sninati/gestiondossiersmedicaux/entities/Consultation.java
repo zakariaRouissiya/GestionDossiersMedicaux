@@ -37,10 +37,8 @@ public class Consultation {
     public double calculateTotalAmount() {
         double totalAmount = 200.0;
         for (InterventionMedecin intervention : interventions) {
-            if (intervention.getPrixPatient() != null) {
+            if (intervention.getPrixPatient() != null && intervention.getActe() != null && intervention.getActe().getPrixDeBase() != null) {
                 totalAmount += intervention.getPrixPatient();
-            }
-            if (intervention.getActe() != null && intervention.getActe().getPrixDeBase() != null) {
                 totalAmount += intervention.getActe().getPrixDeBase();
             }
         }

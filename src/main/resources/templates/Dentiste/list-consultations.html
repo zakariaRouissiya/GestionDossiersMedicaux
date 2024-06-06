@@ -30,7 +30,7 @@
                     <a th:if="${consultation.factures.size() > 0}"
                        th:href="@{/dentiste/dossierMedicale/facture/download/{consultationId}/{factureId}(consultationId=${consultation.idConsultation}, factureId=${consultation.factures[0].idFacture})}"
                        class="btn btn-info">
-                        Télécharger la facture
+                        Facture
                     </a>
                 </td>
             </tr>

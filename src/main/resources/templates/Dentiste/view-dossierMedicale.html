@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualiser le Dossier Médical</title>
+    <style>
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        .info p {
+            margin: 0;
+        }
+
+        .info p span {
+            font-weight: bold;
+        }
+
+        .divider {
+            height: 2px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn + .btn {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <h1 class="mb-5">Visualiser le Dossier Médical</h1>
+        <div class="info">
+            <!--<h2 th:text="${dossier.numeroDossier}"></h2>-->
+            <p><span>Patient:</span> <span th:text="${dossier.patient.nom + ' ' + dossier.patient.prenom}"></span></p>
+            <p><span>Médecin Traitant:</span> <span th:text="${dossier.medecinTraitant.nom + ' ' + dossier.medecinTraitant.prenom}"></span></p>
+            <p><span>Date de Création:</span> <span th:text="${dossier.dateCreation}"></span></p>
+            <p class="mb-5"><span>Statut de Paiement:</span> <span th:text="${dossier.statutPaiement}"></span></p>
+        </div>
+
+        <div class="divider mb-5"></div>
+
+        <h3>Consultations</h3>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Date de Consultation</th>
+                <th>Type de Consultation</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="consultation : ${consultations}">
+                <td th:text="${consultation.dateConsultation}"></td>
+                <td th:text="${consultation.typeConsultation}"></td>
+                <td>
+                    <a th:href="@{/dentiste/dossierMedicale/consultations/edit/{id}(id=${consultation.idConsultation})}" class="btn btn-success">Modifier</a>
+                    <a th:href="@{/dentiste/dossierMedicale/consultations/delete/{id}(id=${consultation.idConsultation})}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette consultation?')">Supprimer</a>
+                    <a th:if="${consultation.factures.size() > 0}"
+                       th:href="@{/dentiste/dossierMedicale/facture/download/{consultationId}/{factureId}(consultationId=${consultation.idConsultation}, factureId=${consultation.factures[0].idFacture})}"
+                       class="btn btn-info">
+                        Facture
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="divider mb-5"></div>
+
+        <h3>Interventions</h3>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Acte</th>
+                <th>Prix</th>
+                <th>Note</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="intervention : ${interventions}">
+                <td th:text="${intervention.acte.libelle}"></td>
+                <td th:text="${intervention.prixPatient}"></td>
+                <td th:text="${intervention.noteMedecin}"></td>
+                <td>
+                    <a th:href="@{/dentiste/dossierMedicale/interventions/edit/{id}(id=${intervention.idIntervention})}" class="btn btn-success">Modifier</a>
+                    <a th:href="@{/dentiste/dossierMedicale/interventions/delete/{id}(id=${intervention.idIntervention})}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette intervention?')">Supprimer</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

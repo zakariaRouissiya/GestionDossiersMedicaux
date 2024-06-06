@@ -22,7 +22,7 @@
         <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/patients}">
             <div class="sidebar-brand-icon">
             </div>
-            <div class="sidebar-brand-text mx-3">SNINATI</div>
+            <div class="sidebar-brand-text mx-3"><i class="fas fa-hospital-alt"></i>SNINATI</div>
         </a>
 
         <!-- Divider -->
@@ -38,10 +38,10 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Gestion Des Utilisateurs
+        <div class="sidebar-heading" th:if="${#authorization.expression('hasAnyRole(''DENTISTE'',''SECRETAIRE'')')}">
+            Patients
         </div>
+        <!-- Heading -->
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
@@ -54,11 +54,13 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" th:href="@{/patients}">Liste Des Patients</a>
                     <a class="collapse-item" th:href="@{/formPatients}" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''SECRETAIRE'')')}">Formulaire Patient</a>
-                    <a class="collapse-item" th:href="@{/dentiste/dossierMedicale}" th:if="${#authorization.expression('hasRole(''DENTISTE'')')}">Dossiers Medicaux</a>
                 </div>
             </div>
         </li>
 
+        <div class="sidebar-heading" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+            Gestion Des Utilisateurs
+        </div>
 
         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
             <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseDentistes"
@@ -90,47 +92,30 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
-            Caisse
+        <div class="sidebar-heading" th:if="${#authorization.expression('hasRole(''DENTISTE'')')}">
+            Gestion Dossier Medicale
         </div>
 
+
         <!-- Nav Item - Pages Collapse Menu -->
-<!--        <li class="nav-item">
-            <a class="nav-link collapsed"  data-toggle="collapse" data-target="#collapsePages"
-               aria-expanded="true" aria-controls="collapsePages">
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''DENTISTE'')')}">
+            <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseDossierMedicale"
+               aria-expanded="true" aria-controls="collapseDossierMedicale">
                 <i class="fas fa-fw fa-folder"></i>
-                <span>Pages</span>
+                <span>Dossiers Medicaux</span>
             </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseDossierMedicale" class="collapse" aria-labelledby="headingDossierMedicale" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Login Screens:</h6>
-                    <a class="collapse-item">Login</a>
-                    <a class="collapse-item">Register</a>
-                    <a class="collapse-item">Forgot Password</a>
+                    <h6 class="collapse-header">Dossiers Médicaux:</h6>
+                    <a class="collapse-item" th:href="@{/dentiste/dossierMedicale}">Liste des Dossiers</a>
+                    <a class="collapse-item" th:href="@{/dentiste/dossierMedicale/consultations}">Liste des Consultations</a>
+                    <a class="collapse-item" th:href="@{/dentiste/dossierMedicale/interventions}">Liste des Interventions</a>
                     <div class="collapse-divider"></div>
-                    <h6 class="collapse-header">Other Pages:</h6>
-                    <a class="collapse-item">404 Page</a>
-                    <a class="collapse-item">Blank Page</a>
+                    <h6 class="collapse-header">Actes:</h6>
+                    <a class="collapse-item" th:href="@{/dentiste/actes}">Liste des Actes</a>
                 </div>
             </div>
-        </li>-->
-
-        <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Statistique</span></a>
         </li>
-
-        <!-- Nav Item - Tables -->
-<!--        <li class="nav-item">
-            <a class="nav-link">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Tables</span></a>
-        </li>-->
-
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
@@ -183,10 +168,10 @@
 
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle"  id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${#authentication.name}">[username]</span>
-                            <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                            <i class="fas fa-user-circle fa-lg"></i> <!-- User icon instead of image -->
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -194,11 +179,6 @@
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Login
                             </a>
-                            <a class="dropdown-item">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
-                            <div class="dropdown-divider"></div>
                             <form method="post" th:action="@{/logout}">
                                 <button class="dropdown-item" type="submit" sec:authorize="isAuthenticated()">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -207,6 +187,7 @@
                             </form>
                         </div>
                     </li>
+
 
                 </ul>
 

@@ -48,14 +48,4 @@ public class HomeController {
         return "redirect:/home";
     }
 
-    // Remove this method to avoid the conflict
-    // @GetMapping("/admin")
-    // public String adminHome() {
-    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    //     CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-    //     Utilisateur user = customUserDetails.getUtilisateur();
-    //     if (user.getRole() == Role.ADMIN)
-    //         return "admin/home";
-    //     return "redirect:/home";
-    // }
 }

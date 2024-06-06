@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -200,7 +201,7 @@ public class MedicalDossierController {
     public String saveIntervention(@ModelAttribute("intervention") InterventionMedecin intervention) {
         interventionMedecinRepository.save(intervention);
         Facture facture = factureService.generateFactureForConsultation(intervention.getConsultation().getIdConsultation());
-        Long factureId = facture.getIdFacture();  // Récupérer l'ID de la facture
+        Long factureId = facture.getIdFacture();
         return "redirect:/dentiste/dossierMedicale/interventions";
     }
 
@@ -253,6 +254,45 @@ public class MedicalDossierController {
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
+    }
+
+    @GetMapping("/view/{id}")
+    public String viewDossier(@PathVariable Long id, Model model) {
+        DossierMedicale dossierMedicale = dossierMedicaleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid dossier Id:" + id));
+        List<Consultation> consultations = consultationRepository.findByDossierMedicale(dossierMedicale);
+
+        List<InterventionMedecin> interventions = new ArrayList<>();
+        for (Consultation consultation : consultations) {
+            List<InterventionMedecin> consultationInterventions = interventionMedecinRepository.findByConsultation(consultation);
+            interventions.addAll(consultationInterventions);
+        }
+
+        model.addAttribute("dossier", dossierMedicale);
+        model.addAttribute("consultations", consultations);
+        model.addAttribute("interventions", interventions);
+
+        return "dentiste/view-dossierMedicale";
+    }
+
+    @GetMapping("/consultations/add/{dossierId}")
+    public String addConsultationForm(@PathVariable Long dossierId, Model model) {
+        DossierMedicale dossierMedicale = dossierMedicaleRepository.findById(dossierId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid dossier Id:" + dossierId));
+        model.addAttribute("consultation", new Consultation());
+        model.addAttribute("dossier", dossierMedicale);
+        return "dentiste/add-consultation";
+    }
+
+    @GetMapping("/interventions/add/{dossierId}")
+    public String addInterventionForm(@PathVariable Long dossierId, Model model) {
+        DossierMedicale dossierMedicale = dossierMedicaleRepository.findById(dossierId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid dossier Id:" + dossierId));
+        List<Consultation> consultations = consultationRepository.findByDossierMedicale(dossierMedicale);
+        model.addAttribute("intervention", new InterventionMedecin());
+        model.addAttribute("consultations", consultations);
+        model.addAttribute("actes", acteRepository.findAll());
+        return "dentiste/add-intervention";
     }
 
 

@@ -103,7 +103,6 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    // CRUD operations for Dentiste
     @GetMapping("/dentistes")
     public String listDentistes(Model model) {
         List<Dentiste> dentistes = utilisateurRepository.findAll()
@@ -168,7 +167,6 @@ public class AdminController {
         return "redirect:/admin/dentistes";
     }
 
-    // CRUD operations for Secretaire
     @GetMapping("/secretaires")
     public String listSecretaires(Model model) {
         List<Secretaire> secretaires = utilisateurRepository.findAll()

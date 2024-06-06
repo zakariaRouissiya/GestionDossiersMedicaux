@@ -1,16 +1,11 @@
 package ma.sninati.gestiondossiersmedicaux.services;
 
-import com.itextpdf.io.font.constants.StandardFonts;
-import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.Color;
-import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.colors.DeviceRgb;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.Style;
 import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
@@ -64,18 +59,14 @@ public class FactureService {
         com.itextpdf.kernel.pdf.PdfDocument pdfDocument = new com.itextpdf.kernel.pdf.PdfDocument(writer);
         Document document = new Document(pdfDocument);
 
-        // Styles
         Color headerColor = new DeviceRgb(0, 102, 204);
         Style headerStyle = new Style().setFontSize(20).setBold().setFontColor(headerColor).setTextAlignment(TextAlignment.CENTER);
         Style normalStyle = new Style().setTextAlignment(TextAlignment.LEFT);
 
-        // Header
         document.add(new Paragraph("RECEPISSE DE REGLEMENT - FACTURE CONSULTATION SNINATI").addStyle(headerStyle));
 
-        // Facture Info Table
         Table infoTable = new Table(UnitValue.createPercentArray(new float[]{3, 7})).useAllAvailableWidth().setMarginTop(10);
 
-        // Add table cells
         infoTable.addHeaderCell(new Cell().add(new Paragraph("Facture ID:")).addStyle(normalStyle));
         infoTable.addHeaderCell(new Cell().add(new Paragraph(facture.getIdFacture().toString())).addStyle(normalStyle));
 
@@ -105,7 +96,6 @@ public class FactureService {
 
         document.add(infoTable);
 
-        // Footer
         document.add(new Paragraph("Merci pour votre confiance!").addStyle(normalStyle).setTextAlignment(TextAlignment.CENTER).setMarginTop(50));
 
         document.close();

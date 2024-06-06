@@ -8,66 +8,76 @@
 </head>
 <body>
 <div layout:fragment="content1">
-        <form method="post" th:action="@{save(page=${page},keyword=${keyword})}" class="col-md-6 offset-3">
-            <div th:class="form-group">
-                <input type="hidden" class="form-control" id="id" name="id" th:value="${patient.id}">
-                <span th:errors="${patient.id}"></span>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mt-5">
+                    <div class="card-header text-center">
+                        <h3>Modifier Des Patients</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:action="@{save(page=${page},keyword=${keyword})}" class="col-md-10 offset-1">
+                            <div class="form-group mb-3">
+                                <input type="hidden" class="form-control" id="id" name="id" th:value="${patient.id}">
+                                <span th:errors="${patient.id}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="nom">Nom</label>
+                                <input type="text" class="form-control" id="nom" name="nom" th:value="${patient.nom}">
+                                <span th:errors="${patient.nom}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="prenom">Prenom</label>
+                                <input type="text" class="form-control" id="prenom" name="prenom" th:value="${patient.prenom}">
+                                <span th:errors="${patient.prenom}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="tel">Téléphone</label>
+                                <input type="text" class="form-control" id="tel" name="telephone" th:value="${patient.telephone}">
+                                <span th:errors="${patient.telephone}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" th:value="${patient.email}">
+                                <span th:errors="${patient.email}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="cin">CIN</label>
+                                <input type="text" class="form-control" id="cin" name="cin" th:value="${patient.cin}">
+                                <span th:errors="${patient.cin}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="dateNaissance">Date de Naissance</label>
+                                <input type="date" class="form-control" id="dateNaissance" name="dateNaissance" th:value="${patient.dateNaissance}">
+                                <span th:errors="${patient.dateNaissance}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="mutuelle">Mutuelle</label>
+                                <select class="form-select" id="mutuelle" name="mutuelle">
+                                    <option th:each="mutuelle : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.Mutuelle).values()}" th:value="${mutuelle}" th:text="${mutuelle}"></option>
+                                </select>
+                                <span th:errors="${patient.mutuelle}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="groupeSanguin">Groupe Sanguin</label>
+                                <select class="form-select" id="groupeSanguin" name="groupeSanguin">
+                                    <option th:each="groupe : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.GroupeSanguin).values()}" th:value="${groupe}" th:text="${groupe}"></option>
+                                </select>
+                                <span th:errors="${patient.groupeSanguin}"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="dentiste">Dentiste</label>
+                                <select class="form-select" id="dentiste" name="dentisteId">
+                                    <option th:each="dentiste : ${dentistes}" th:value="${dentiste.id}" th:text="${dentiste.nom + ' ' + dentiste.prenom}"></option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Enregistrer</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div th:class="form-group">
-                <label for="nom">Nom</label>
-                <input type="text" class="form-control" id="nom" name="nom" th:value="${patient.nom}">
-                <span th:errors="${patient.nom}"></span>
-            </div>
-            <div th:class="form-group">
-                <label for="prenom">Prenom</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" th:value="${patient.prenom}">
-                <span th:errors="${patient.prenom}"></span>
-            </div>
-            <div th:class="form-group">
-                <label for="tel">Téléphone</label>
-                <input type="text" class="form-control" id="tel" name="telephone" th:value="${patient.telephone}">
-                <span th:errors="${patient.telephone}"></span>
-            </div>
-            <div th:class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" th:value="${patient.email}">
-                <span th:errors="${patient.email}"></span>
-            </div>
-            <div th:class="form-group">
-                <label for="cin">CIN</label>
-                <input type="text" class="form-control" id="cin" name="cin" th:value="${patient.cin}">
-                <span th:errors="${patient.cin}"></span>
-            </div>
-            <div th:class="form-group">
-                <label for="dateNaissance">Date de Naissance</label>
-                <input type="date" class="form-control" id="dateNaissance" name="dateNaissance"
-                       th:value="${patient.dateNaissance}">
-                <span th:errors="${patient.dateNaissance}"></span>
-            </div>
-            <div th:class="form-group">
-                <label for="mutuelle">Mutuelle</label>
-                <select class="form-select" id="mutuelle" name="mutuelle">
-                    <option th:each="mutuelle : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.Mutuelle).values()}"
-                            th:value="${mutuelle}" th:text="${mutuelle}"></option>
-                </select>
-                <span th:errors="${patient.mutuelle}"></span>
-            </div>
-            <div th:class="form-group">
-                <label for="groupeSanguin">Groupe Sanguin</label>
-                <select class="form-select" id="groupeSanguin" name="groupeSanguin">
-                    <option th:each="groupe : ${T(ma.sninati.gestiondossiersmedicaux.entities.Enums.GroupeSanguin).values()}"
-                            th:value="${groupe}" th:text="${groupe}"></option>
-                </select>
-                <span th:errors="${patient.groupeSanguin}"></span>
-            </div>
-<!--            <div th:class="form-group">
-                <label for="profession">Profession</label>
-                <input type="text" class="form-control" id="profession" name="profession"
-                       th:value="${patient.profession}">
-                <span th:errors="${patient.profession}"></span>
-            </div>-->
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-        </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

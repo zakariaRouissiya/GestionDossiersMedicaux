@@ -94,8 +94,6 @@ public class PatientController {
     public String save(Model model, Patient patient, @RequestParam(name = "dentisteId") Long dentisteId,
                        @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "keyword", defaultValue = "") String keyword) {
         patient = patientRepository.save(patient);
-
-        // Create and save a new DossierMedicale linked to the new patient and assigned dentist
         DossierMedicale dossierMedicale = new DossierMedicale();
         dossierMedicale.setPatient(patient);
         Dentiste dentiste = (Dentiste) utilisateurRepository.findById(dentisteId).orElse(null);
